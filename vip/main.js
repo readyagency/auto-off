@@ -2,17 +2,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Tạo đối tượng Audio
     const audioWellcome = new Audio('../voice-wellcome-vip.mp3');
     const audioFalse = new Audio('../voice-false.mp3');
-    const audioNotVIP = new Audio('../voice-not-vip.mp3');
+    const audioVNWellcome = new Audio('../voice-vn-wellcome.mp3');
     // Đặt tốc độ phát của voice-1 nhanh hơn
     audioWellcome.playbackRate = 1.25;
 
     // Lấy phần tử input
     const inputElement = document.getElementById('inputData');
 
+    // Biến cờ để theo dõi âm thanh đã được phát
+    let hasPlayedWelcomeAudio = false;
+
     // Lắng nghe sự kiện 'input'
     inputElement.addEventListener('input', (event) => {
-        // Phát âm thanh
-        audioWellcome.play();
+        // Kiểm tra và phát âm thanh nếu chưa phát
+        if (!hasPlayedWelcomeAudio) {
+            audioWellcome.play();
+            hasPlayedWelcomeAudio = true;
+        }
     });
 
     async function sendData(event) {
@@ -39,16 +45,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const result = await response.json();
             console.log('Kết quả trả về từ API:', result.data.result);
             const enData = result.data.result;
-            const enCode = result.data.code;
 
-            if (enData && enData !== 0 && enCode == 3000) {
+            if (enData && enData !== 0) {
                 // Nếu phản hồi thành công, hiển thị popup với ảnh
                 openPopup(enData);
+                
             } else {
                 console.error('Phản hồi không thành công:', response);
-                audioNotVIP.play();
                 // Xóa dữ liệu trong ô input
                 document.getElementById('inputData').value = '';
+                audioFalse.play();
             }
         } catch (error) {
             audioFalse.play();
@@ -69,6 +75,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // Xóa dữ liệu trong ô input
         document.getElementById('inputData').value = '';
+
+        // Reset the flag to allow the welcome audio to play again if needed
+        hasPlayedWelcomeAudio = false;
     }
 
     function closePopup() {

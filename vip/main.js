@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         try {
             // Gửi dữ liệu đến API
-            const response = await fetch('https://gate.rx-vietnamshows.com:8080/vip-check', {
+            const response = await fetch('https://gate.rx-vietnamshows.com/vip-check', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,21 +39,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const result = await response.json();
             console.log('Kết quả trả về từ API:', result.data.result);
             const enData = result.data.result;
+            const enCode = result.data.code;
 
-            if (enData && enData !== 0) {
-                audioNotVIP.play();
-            }
-
-            if (response.ok) {
+            if (enData && enData !== 0 && enCode == 3000) {
                 // Nếu phản hồi thành công, hiển thị popup với ảnh
                 openPopup(enData);
             } else {
-                console.error('Phản hồi không thành công:', response.statusText);
-                audioFalse.play();
+                console.error('Phản hồi không thành công:', response);
+                audioNotVIP.play();
             }
         } catch (error) {
+            audioFalse.play();
             console.error('Lỗi khi gọi API:', error);
-            audioNotVIP.play();
         }
     }
 

@@ -47,10 +47,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 console.error('Phản hồi không thành công:', response);
                 audioNotVIP.play();
+                // Xóa dữ liệu trong ô input
+                document.getElementById('inputData').value = '';
             }
         } catch (error) {
             audioFalse.play();
             console.error('Lỗi khi gọi API:', error);
+            // Xóa dữ liệu trong ô input
+            document.getElementById('inputData').value = '';
         }
     }
 

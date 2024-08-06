@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', (event) => {
     // Tạo đối tượng Audio
     const audioWellcome = new Audio('../voice-wellcome.mp3');
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         try {
             // Gửi dữ liệu đến API
-            const response = await fetch('https://gate.rx-vietnamshows.com:8080/cof-check', {
+            const response = await fetch('https://gate.rx-vietnamshows.com/cof-check', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

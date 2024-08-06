@@ -49,12 +49,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (enData && enData !== 0) {
                 // Nếu phản hồi thành công, hiển thị popup với ảnh
                 openPopup(enData);
-                
+                document.getElementById('inputData').value = '';
             } else {
                 console.error('Phản hồi không thành công:', response);
                 // Xóa dữ liệu trong ô input
-                document.getElementById('inputData').value = '';
                 audioFalse.play();
+                document.getElementById('inputData').value = '';
             }
         } catch (error) {
             audioFalse.play();
